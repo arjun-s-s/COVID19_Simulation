@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from regex import P
 import matplotlib
 
 #what are the attributes for each person:
@@ -39,7 +38,7 @@ def array_create(N, domain_shape):
         return People
 
 
-'''
+
 X = array_create(60,"sphere")
 
 plt.plot(np.transpose(X)[0], np.transpose(X)[1], ',')
@@ -49,7 +48,7 @@ fig = plt.figure()
 ax = fig.add_subplot(projection='3d')
 ax.scatter(np.transpose(X)[0], np.transpose(X)[1], np.transpose(X)[2])
 plt.show()
-'''
+
 
 
 
