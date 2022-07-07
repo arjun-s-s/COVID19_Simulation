@@ -2,6 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib
 
+#This is the class version!!!!
+#sadfasdsadaswdasd
+
 #what are the attributes for each person:
 # [0] - X position - double
 # [1] - Y position - double
