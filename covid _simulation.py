@@ -76,47 +76,57 @@ def movement(People, within_radius): #to shuffle the points, either completely r
         
         if People[2][0] == 0:
             
-            print()
-            #code for shuffling points in square within radius
+            for i in range(len(People[0])):
+
+                random_angle = np.random.random() * 2 * np.pi
+
+                People[0][i] = (People[7][i] + (np.random.random() * People[6][i] * np.cos(random_angle))) % 1
+                People[1][i] = (People[8][i] + (np.random.random() * People[6][i] * np.sin(random_angle))) % 1
 
         else:
 
-            print()
-            #code for shuffling points in circle within radius
+            for i in range(len(People[0])):
+
+                random_angle1 = np.random.random() * 2 * np.pi
+                random_angle2 = np.random.random() * 2 * np.pi
+
+                People[0][i] = People[7][i] + (People[6][i] * np.cos(random_angle1) * np.sin(random_angle2))
+                People[1][i] = People[8][i] + (People[6][i] * np.sin(random_angle1) * np.sin(random_angle2))
+                People[2][i] = People[9][i] + (People[6][i] * np.cos(random_angle2))
+
+                magnitude = np.linalg.norm([People[0][i], People[1][i], People[2][i]])
+
+                People[0][i] = People[0][i] / magnitude
+                People[1][i] = People[1][i] / magnitude
+                People[2][i] = People[2][i] / magnitude
 
     else:
 
         if People[2][0] == 0:
-            
-            print()
-            #code for shuffling within square, completely randomly
+
+            for i in range(len(People[0])):
+                
+                People[0][i] = np.random.rand()
+                People[1][i] = np.random.rand()
 
         else:
 
-            print()
-            #code for shuffling within sphere, completely randomly
+            for i in range(len(People[0])):
+                
+                cube_point = 2 * (np.random.rand(3) - .5)
+                
+                People[0][i] = cube_point[0] / np.linalg.norm(cube_point)
+                People[1][i] = cube_point[1] / np.linalg.norm(cube_point)
+                People[2][i] = cube_point[2] / np.linalg.norm(cube_point)
 
     return People
 
 
-
-
-
-
-
-
-X = array_create(600,"sphere", 0.1)
+X = array_create(6000,"sphere", 0.1)
 X = initialisation(X, 0.1, 0.2, 0.05)
 
-
-count = 0
-
-for i in range(len(X[0])):
-    if X[3][i]:
-        count += 1
-print(count)
-
-
+for i in range(365):
+    X = movement(X, True)
 
 plt.plot(X[0], X[1], ',')
 plt.show()
