@@ -52,7 +52,7 @@ def array_create(N, domain_shape, home_radius_multiplier): # creates an array fo
 
             People[3][i] = False
 
-            People[6][i] = np.random.random() * 0.1
+            People[6][i] = np.random.random() * home_radius_multiplier
 
         
         return People
@@ -121,13 +121,75 @@ def movement(People, within_radius): #to shuffle the points, either completely r
 
     return People
 
+def spreading(People):
 
-X = array_create(6000,"sphere", 0.1)
+    People_temp = People
+
+    if People[2][0] == 0:
+
+        for i in range(len(People[0])):
+
+            for j in range(len(People[0])):
+
+                vector = np.array([People[0][i], People[1][i]]) - np.array([People[0][j], People[1][j]])
+
+                if np.linalg.norm(vector) < People[5][i] and np.random.binomial(1,People[4][i]) == 1:
+
+                    People_temp[3][j] = True
+                    People_temp[4][j] = People_temp[4][i]
+    
+    else:
+        
+        for i in range(len(People[0])):
+
+            for j in range(len(People[0])):
+
+                vector = np.array([People[0][i], People[1][i], People[2][i]]) - np.array([People[0][j], People[1][j], People[2][j]])
+
+                if np.linalg.norm(vector) < People[5][i] and np.random.binomial(1,People[4][i]) == 1:
+
+                    People_temp[3][j] = True
+                    People_temp[4][j] = People_temp[4][i]
+    
+    return People_temp
+
+
+def simulation(People, num_days, within_radius):
+
+    infection_count = []
+
+    for i in range(num_days):
+
+        count = 0
+
+        for i in range(len(People[3])):
+
+            if People[3][i]:
+
+                count += 1
+
+        infection_count.append(count)
+
+        People = movement(People, within_radius)
+        People = spreading(People)
+    
+    return infection_count
+
+
+
+
+X = array_create(60000,"square", 0.1)
 X = initialisation(X, 0.1, 0.2, 0.05)
+infection_count = simulation(X, 50, True)
 
+plt.plot(infection_count)
+plt.show()
+
+
+'''
 for i in range(365):
     X = movement(X, True)
-
+'''
 plt.plot(X[0], X[1], ',')
 plt.show()
 
