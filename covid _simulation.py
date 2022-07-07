@@ -15,9 +15,7 @@ import matplotlib
 # [9] - home point Z position - centre of their home
 
 
-
-
-def array_create(N, domain_shape): # creates an array for N people, with randomised points on a square or sphere
+def array_create(N, domain_shape, home_radius_multiplier): # creates an array for N people, with randomised points on a square or sphere
     
     People = np.zeros((10, N))
 
@@ -32,6 +30,8 @@ def array_create(N, domain_shape): # creates an array for N people, with randomi
             People[8][i] = People[1][i]
 
             People[3][i] = False
+
+            People[6][i] = np.random.random() * home_radius_multiplier
         
         return People
         
@@ -52,18 +52,50 @@ def array_create(N, domain_shape): # creates an array for N people, with randomi
 
             People[3][i] = False
 
+            People[6][i] = np.random.random() * 0.1
+
         
         return People
 
+def initialisation(People, percentage_infected, mean_covid_probability, infection_radius_multiplier): #to initialise the People - infecting a random percentage of the population
 
-def initialisation(People, percentage_infected): #to initialise the People - infecting a random percentage of the population
 
     num_infected = int(np.round(len(People[0]) * percentage_infected))
 
     for i in range(num_infected):
 
         People[3][i] = True #fine since order of people doesn't matter
+        People[4][i] = mean_covid_probability * np.random.random()
+        People[5][i] = np.random.random() * infection_radius_multiplier
     
+    return People
+
+def movement(People, within_radius): #to shuffle the points, either completely randomly or within a radius
+
+    if within_radius:
+        
+        if People[2][0] == 0:
+            
+            print()
+            #code for shuffling points in square within radius
+
+        else:
+
+            print()
+            #code for shuffling points in circle within radius
+
+    else:
+
+        if People[2][0] == 0:
+            
+            print()
+            #code for shuffling within square, completely randomly
+
+        else:
+
+            print()
+            #code for shuffling within sphere, completely randomly
+
     return People
 
 
@@ -71,8 +103,10 @@ def initialisation(People, percentage_infected): #to initialise the People - inf
 
 
 
-X = array_create(600,"sphere")
-X = initialisation(X, 0.1)
+
+
+X = array_create(600,"sphere", 0.1)
+X = initialisation(X, 0.1, 0.2, 0.05)
 
 
 count = 0
